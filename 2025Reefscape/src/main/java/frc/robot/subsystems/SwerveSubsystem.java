@@ -10,15 +10,13 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import java.util.function.Supplier;
 
-import com.kauailabs.navx.frc.AHRS;
+import com.studica.frc.AHRS;
+import com.studica.frc.AHRS.NavXComType;
 import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.commands.FollowPathHolonomic;
+import com.pathplanner.lib.commands.*;
+import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.path.PathPlannerPath;
-import com.pathplanner.lib.util.ChassisSpeedsRateLimiter;
-import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
-import com.pathplanner.lib.util.PIDConstants;
-import com.pathplanner.lib.util.PPLibTelemetry;
-import com.pathplanner.lib.util.ReplanningConfig;
+import com.pathplanner.lib.util.*;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -78,7 +76,7 @@ public class SwerveSubsystem extends SubsystemBase {
             DriveConstants.kBackRightDriveAbsoluteEncoderReversed
     );
 
-     public final AHRS gyro = new AHRS(SPI.Port.kMXP);
+     public final AHRS gyro = new AHRS(NavXComType.kMXP_SPI);
     // public final AHRS gyro = new AHRS(SPI.Port.kOnboardCS0);
     // public final ADXRS450_Gyro gyro = new ADXRS450_Gyro();
     

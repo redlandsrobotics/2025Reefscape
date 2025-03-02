@@ -9,9 +9,10 @@ import frc.robot.Constants.ModuleConstants;
 
 
 import com.revrobotics.AbsoluteEncoder;
-import com.revrobotics.CANSparkMax;
+import com.revrobotics.spark.*;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+//import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 
 import edu.wpi.first.math.controller.PIDController;
@@ -26,8 +27,8 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 
 public class SwerveModule extends SubsystemBase {
     /** Creates a new ExampleSubsystem. */
-    private final CANSparkMax driveMotor;
-    private final CANSparkMax turningMotor;
+    private final SparkMax driveMotor;
+    private final SparkMax turningMotor;
 
     private final RelativeEncoder driveEncoder;
     private final RelativeEncoder turningEncoder;
@@ -46,8 +47,8 @@ public class SwerveModule extends SubsystemBase {
 		absoluteEncoder = new AnalogInput(absoluteEncoderId);
     
 	
-		driveMotor = new CANSparkMax(driveMotorId, MotorType.kBrushless);
-		turningMotor = new CANSparkMax(turningMotorId, MotorType.kBrushless);
+		driveMotor = new SparkMax(driveMotorId, MotorType.kBrushless);
+		turningMotor = new SparkMax(turningMotorId, MotorType.kBrushless);
 	  driveMotor.restoreFactoryDefaults();
     turningMotor.restoreFactoryDefaults();
 
