@@ -40,16 +40,7 @@ private final Field2d m_field = new Field2d();
     m_robotContainer = new RobotContainer(); 
     
     //red autos
-    paths.addOption("OR-A", new PathPlannerAuto("OR_AutoA"));
-    paths.addOption("OR-B", new PathPlannerAuto("OR_AutoB"));
-    paths.addOption("OR-C", new PathPlannerAuto("OR_AutoC"));
-    paths.addOption("OR-Exit", new PathPlannerAuto("OR_ExitAuto"));
 
-    paths.addOption("OB-A", new PathPlannerAuto("OB_AutoA"));
-    paths.addOption("OB-B", new PathPlannerAuto("OB_AutoB"));
-    paths.addOption("OB-C", new PathPlannerAuto("OB_AutoC"));
-    paths.addOption("OB-Exit", new PathPlannerAuto("OB_ExitAuto"));
-    paths.addOption("Test", new PathPlannerAuto("ATest"));
 
     SmartDashboard.putData(paths);
     SmartDashboard.putData("Field", m_field);
