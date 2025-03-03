@@ -9,8 +9,14 @@ import edu.wpi.first.wpilibj2.command.Command;
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class ElevatorCmd extends Command {
   /** Creates a new ElevatorCmd. */
-  public ElevatorCmd() {
-    // Use addRequirements() here to declare subsystem dependencies.
+  private final ElevatorSubsystem m_subsystem;
+  private Supplier<Double> speedFunction;
+
+  public ElevatorCmd(ElevatorSubsystem subsystem) 
+  {
+    m_subsystem = subsystem;
+    this.speedFunction = speedFunction;
+    addRequirements(subsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -19,11 +25,30 @@ public class ElevatorCmd extends Command {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() 
+  {
+    double realTimeSpeed = speedFunction.get();
+
+    if(realTimeSpeed<0.05 && realTimeSpeed>-0.05)
+    {
+      RobotContainer.elevator.stop();
+    }
+    if(realTimeSpeed < -0.05)
+    {
+      RobotContainer.elevator.down();
+    }
+    if(realTimeSpeed> 0.05)
+    {
+      RobotContainer.elevator.up();
+    }
+  }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) 
+  {
+    RobotContainer.elevator.stop();
+  }
 
   // Returns true when the command should end.
   @Override

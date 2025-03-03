@@ -27,6 +27,13 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 import com.pathplanner.lib.auto.NamedCommands;
 
+import frc.robot.subsystems.ElevatorSubsystem;
+import frc.robot.commands.ElevatorCmd;
+import frc.robot.subsystems.WristSubsystem;
+import frc.robot.commands.WristCmd;
+import frc.robot.commands.EndEffectorCmd;
+import frc.robot.subsystems.EndEffectorSubsystem;
+
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -36,18 +43,41 @@ import com.pathplanner.lib.auto.NamedCommands;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public static SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
-
+  public static ElevatorSubsystem elevator = new ElevatorSubsystem();
+  public static WristSubsystem wrist = new WristSubsystem();
+  public static EndEffectorSubsystem endEffector = new EndEffectorSubsystem();
+  /* 
+  public static VisionSubsystem vision = new VisionSubsystem();
+  public static ShooterSubsystem shooter = new ShooterSubsystem();
+  public static GroundIntakeSubsystem groundIntake = new GroundIntakeSubsystem();
+  public static ArmSubsystem arm = new ArmSubsystem();
+  public static InnerShooterSubsystem innerShooter = new InnerShooterSubsystem();
+  */
   
 
   
 
   //commands
   ZeroHeadingCmd zeroheading = new ZeroHeadingCmd(swerveSubsystem); 
-  
+  /*
+  private static AutoAlignCmd align = new AutoAlignCmd(swerveSubsystem);
+  private static LRShootCmd LRshoot = new LRShootCmd(innerShooter);
+  private static ArmPIDCmd Amp = new ArmPIDCmd(arm, ArmConstants.Amp);
+  private static ArmPIDCmd Stow = new ArmPIDCmd(arm, ArmConstants.Stow);
+  private static ArmPIDCmd Source = new ArmPIDCmd(arm, ArmConstants.Source);
+  private static ArmPIDCmd Speaker1 = new ArmPIDCmd(arm, ArmConstants.pos1);
+  private static ArmPIDCmd Speaker2 = new ArmPIDCmd(arm, ArmConstants.pos2);
+  private static ArmPIDCmd Speaker3 = new ArmPIDCmd(arm, ArmConstants.pos3);
+  private static ArmPIDCmd Speaker4 = new ArmPIDCmd(arm, ArmConstants.pos4);
+   */
+
+
+
+  //Naming commands
   
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
-
+  //XboxController controller1 = new XboxController(Constants.OIConstants.kDriverControllerPort);
   XboxController controller2 = new XboxController(1);
   PS5Controller controller1 = new PS5Controller(Constants.OIConstants.kDriverControllerPort);
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -61,7 +91,12 @@ public class RobotContainer {
        () ->Math.abs(controller1.getRawAxis(OIConstants.kDriverRotAxis)) * controller1.getRawAxis(OIConstants.kDriverRotAxis),
        () ->!controller1.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx)));
 
-
+    // arm.setDefaultCommand(new ArmCmd(arm, () -> controller2.getRawAxis(1)));
+    // shooter.setDefaultCommand(new ShootCmd(shooter,  () -> controller1.getRawAxis(4), () -> controller1.getRawAxis(3)));
+    // NamedCommands.registerCommand("pos1", new ArmPIDCmd(arm, ArmConstants.pos1));
+    // NamedCommands.registerCommand("stow", new ArmPIDCmd(arm, ArmConstants.Stow));
+    // NamedCommands.registerCommand("shoot", new AutoShootCmd(shooter));
+    // NamedCommands.registerCommand("LRShoot", new LRShootCmd(innerShooter));
     NamedCommands.registerCommand("align", new ZeroHeadingCmd(swerveSubsystem));
 
     configureBindings();
@@ -78,8 +113,18 @@ public class RobotContainer {
    */
   private void configureBindings() {
     // joystick 1
+    //new JoystickButton(controller1, 5).onTrue(zeroheading);
     new JoystickButton(controller1, 5).toggleOnTrue(zeroheading);//this line replaces the above
-   
+    //new JoystickButton(controller1, 1).toggleOnTrue(align);
+    // new JoystickButton(controller1, 6).whileTrue(LRshoot);
+    // new JoystickButton(controller2, 1).whileTrue(Speaker1);
+    // new JoystickButton(controller2,2 ).whileTrue(Speaker2);
+    // new JoystickButton(controller2, 3).whileTrue(Speaker3);
+    // new JoystickButton(controller2, 4).whileTrue(Speaker4);
+    // new JoystickButton(controller2, 5).whileTrue(Source);
+    // new JoystickButton(controller2, 6).whileTrue(Stow);
+    // new JoystickButton(controller2, 8).whileTrue(Amp);
+
     
 
 
