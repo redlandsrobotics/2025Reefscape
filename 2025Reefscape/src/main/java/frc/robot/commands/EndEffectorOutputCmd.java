@@ -15,16 +15,15 @@ import java.util.TimerTask;
 import java.util.function.Supplier;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class EndEffectorCmd extends Command {
+public class EndEffectorOutputCmd extends Command {
   /** Creates a new EndEffectorCmd. */
 
   private Supplier<Double> speedFunction;
   private final EndEffectorSubsystem m_subsystem;
 
-  public EndEffectorCmd(EndEffectorSubsystem subsystem, Supplier<Double> speedFunction) 
+  public EndEffectorOutputCmd(EndEffectorSubsystem subsystem) 
   {
     m_subsystem = subsystem;
-    this.speedFunction = speedFunction;
     addRequirements(subsystem);
   }
 
@@ -36,20 +35,7 @@ public class EndEffectorCmd extends Command {
   @Override
   public void execute() 
   {
-    double realTimeSpeed = speedFunction.get();  
-
-    if (realTimeSpeed > 0.05)
-    {
-      RobotContainer.endEffector.shoot();
-    }
-    else if(realTimeSpeed2 > 0.05)
-    {
-      RobotContainer.endEffector.intake();
-    }
-    else
-    {
-      RobotContainer.endEffector.stop()
-    }
+    RobotContainer.endEffector.shoot();
   }
 
   // Called once the command ends or is interrupted.

@@ -29,8 +29,8 @@ public class EndEffectorSubsystem extends SubsystemBase {
 
   public void intake()
   {
-    top.set(-0.2); // to be tuned later
-    bottom.set(0.2); // to be tuned later
+    top.set(-0.75); // to be tuned later
+    bottom.set(0.75); // to be tuned later
 
   }
 

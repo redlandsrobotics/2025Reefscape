@@ -124,5 +124,27 @@ public static final class OIAutoConstants {
     public static final double TurningD = 5;
 }
 
+public static final class ArmConstants {
+    public static final double UpperLimit = 0.0; // tweak later
+    public static final double LowerLimit = 0.0;
+    public static final double kP = 0.0;
+    public static final double kI = 0.0;
+    public static final double kD = 0.0;
+
+}
+
+public static final class WristConstants{
+    public static final double UpperLimit = 0.0;
+    public static final double LowerLimit = 0.0;
+    public static final double kP = 0.0;
+    public static final double kI = 0.0;
+    public static final double kD = 0.0;
+}
+
+public static final class ElevaConstants{
+    public static final double kP = 0.0;
+    public static final double kI = 0.0;
+    public static final double kD = 0.0;
+}
 
 }

@@ -44,6 +44,10 @@ public class ElevatorSubsystem extends SubsystemBase
     right.set(speed);
   }
 
+  public double getDistance()
+  {
+    return encoder.getDistance();
+  }
   /* 
   public double getRotation()
   {
@@ -58,7 +62,7 @@ public class ElevatorSubsystem extends SubsystemBase
     }
   }
 
-   public double getDistance()
+  public double getDistance()
   {
     return encoder.getDistance();
   }

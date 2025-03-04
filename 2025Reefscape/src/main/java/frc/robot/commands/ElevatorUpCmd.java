@@ -4,15 +4,19 @@
 
 package frc.robot.commands;
 
+import java.util.function.Supplier;
+
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.RobotContainer;
+import frc.robot.subsystems.ElevatorSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class ElevatorCmd extends Command {
+public class ElevatorUpCmd extends Command {
   /** Creates a new ElevatorCmd. */
   private final ElevatorSubsystem m_subsystem;
   private Supplier<Double> speedFunction;
 
-  public ElevatorCmd(ElevatorSubsystem subsystem) 
+  public ElevatorUpCmd(ElevatorSubsystem subsystem, Supplier<Double> speedFunction) 
   {
     m_subsystem = subsystem;
     this.speedFunction = speedFunction;
@@ -27,20 +31,7 @@ public class ElevatorCmd extends Command {
   @Override
   public void execute() 
   {
-    double realTimeSpeed = speedFunction.get();
-
-    if(realTimeSpeed<0.05 && realTimeSpeed>-0.05)
-    {
-      RobotContainer.elevator.stop();
-    }
-    if(realTimeSpeed < -0.05)
-    {
-      RobotContainer.elevator.down();
-    }
-    if(realTimeSpeed> 0.05)
-    {
-      RobotContainer.elevator.up();
-    }
+    RobotContainer.elevator.up();
   }
 
   // Called once the command ends or is interrupted.

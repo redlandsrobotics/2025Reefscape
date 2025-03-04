@@ -27,12 +27,19 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 import com.pathplanner.lib.auto.NamedCommands;
 
+import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.commands.ElevatorCmd;
 import frc.robot.subsystems.WristSubsystem;
-import frc.robot.commands.WristCmd;
-import frc.robot.commands.EndEffectorCmd;
+import frc.robot.commands.WristUpCmd;
+import frc.robot.commands.WristDownCmd;
+import frc.robot.commands.ArmDownCmd;
+import frc.robot.commands.ArmUpCmd;
+import frc.robot.commands.PIDCmd;
+import frc.robot.commands.EndEffectorIntakeCmd;
+import frc.robot.commands.EndEffectorOutputCmd;
 import frc.robot.subsystems.EndEffectorSubsystem;
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -46,6 +53,7 @@ public class RobotContainer {
   public static ElevatorSubsystem elevator = new ElevatorSubsystem();
   public static WristSubsystem wrist = new WristSubsystem();
   public static EndEffectorSubsystem endEffector = new EndEffectorSubsystem();
+  public static ArmSubsystem arm = new ArmSubsystem();
   /* 
   public static VisionSubsystem vision = new VisionSubsystem();
   public static ShooterSubsystem shooter = new ShooterSubsystem();
@@ -98,6 +106,7 @@ public class RobotContainer {
     // NamedCommands.registerCommand("shoot", new AutoShootCmd(shooter));
     // NamedCommands.registerCommand("LRShoot", new LRShootCmd(innerShooter));
     NamedCommands.registerCommand("align", new ZeroHeadingCmd(swerveSubsystem));
+    NamedCommands.registerCommand("pos1", new PIDCmd(wrist, arm, elevator, 0.0, 0.0, 0.0));
 
     configureBindings();
   }

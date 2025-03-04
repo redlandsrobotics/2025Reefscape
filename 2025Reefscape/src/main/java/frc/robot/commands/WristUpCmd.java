@@ -4,16 +4,22 @@
 
 package frc.robot.commands;
 
+import java.util.function.Supplier;
+
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.RobotContainer;
+import frc.robot.subsystems.WristSubsystem;
+import frc.robot.Constants.ArmConstants;
+import frc.robot.Constants.WristConstants;;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class WristCmd extends Command {
+public class WristUpCmd extends Command {
   /** Creates a new WristCmd. */
   private final WristSubsystem m_subsystem;
   private Supplier<Double> speedFunction;
  
 
-  public WristCmd(WristSubsystem subsystem, Supplier<Double> speedFunction) {
+  public WristUpCmd(WristSubsystem subsystem, Supplier<Double> speedFunction) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_subsystem = subsystem;
     this.speedFunction = speedFunction;
@@ -28,20 +34,7 @@ public class WristCmd extends Command {
   @Override
   public void execute() 
   {
-    double realTimeSpeed = speedFunction.get();
-
-    if(realTimeSpeed<0.05 && realTimeSpeed>-0.05)
-    {
-      RobotContainer.wrist.stop();
-    }
-    if(realTimeSpeed < -0.05)
-    {
-      RobotContainer.wrist.down();
-    }
-    if(realTimeSpeed> 0.05)
-    {
-      RobotContainer.wrist.up();
-    }
+    RobotContainer.wrist.up();
   }
 
   // Called once the command ends or is interrupted.
