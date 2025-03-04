@@ -9,21 +9,36 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix6.configs.*;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.*;
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.REVLibError;
+import com.revrobotics.jni.CANSparkJNI;
+import edu.wpi.first.wpilibj.motorcontrol.MotorController;
+import edu.wpi.first.wpilibj.DriverStation;
+import java.nio.ByteBuffer;
+import java.util.concurrent.atomic.AtomicBoolean;
+import com.revrobotics.AbsoluteEncoder;
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkFlex;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.SparkClosedLoopController;
 
 public class ArmSubsystem extends SubsystemBase 
 {
-  public CANSparkMax motor = new CANSparkMax(0, MotorType.kBrushless);
+  public SparkMax motor = new SparkMax(0, MotorType.kBrushless);
   DutyCycleEncoder encoder = new DutyCycleEncoder(0);
 
   public ArmSubsystem() 
   {
-    motor.setNeutralMode(NeutralModeValue.Brake);
+    motor.setIdleMode(SparkBase.IdleMode.kBrake); 
   }
 
-  public void up()
+  public void up()  
   {
     motor.set(0.1); // these numbers might need to be changed... -AOP
   }
+  
 
   public void down()
   {
@@ -44,7 +59,7 @@ public class ArmSubsystem extends SubsystemBase
   {
     if (encoder.isConnected())
     {
-            return encoder.getAbsolutePosition();
+            return encoder.get();
     }
     else {
       return 0.0;
@@ -53,7 +68,7 @@ public class ArmSubsystem extends SubsystemBase
 
   public double getDistance()
   {
-    return encoder.getDistance();
+    return encoder.getPosition();
   }
 
   public void resetRotation() // sets current rotation to 0.0
@@ -75,5 +90,5 @@ public class ArmSubsystem extends SubsystemBase
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-  }
+  } 
 }
