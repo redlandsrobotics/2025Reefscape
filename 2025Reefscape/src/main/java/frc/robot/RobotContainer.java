@@ -29,7 +29,8 @@ import com.pathplanner.lib.auto.NamedCommands;
 
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
-import frc.robot.commands.ElevatorCmd;
+import frc.robot.commands.ElevatorUpCmd;
+import frc.robot.commands.ElevatorDownCmd;
 import frc.robot.subsystems.WristSubsystem;
 import frc.robot.commands.WristUpCmd;
 import frc.robot.commands.WristDownCmd;
