@@ -5,17 +5,17 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import com.revrobotics.CANSparkBase.ControlType;
-import com.revrobotics.CANSparkBase.IdleMode;
-import com.revrobotics.CANSparkFlex;
-import com.revrobotics.CANSparkLowLevel.MotorType;
-import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
+import com.revrobotics.SparkBase.ControlType;
+import com.revrobotics.SparkBase.IdleMode;
+import com.revrobotics.SparkFlex;
+import com.revrobotics.SparkLowLevel.MotorType;
+import com.revrobotics.SparkLowLevel.PeriodicFrame;
 
 public class EndEffectorSubsystem extends SubsystemBase {
   /** Creates a new EndEffectorSubsystem. */
   
-  public CANSparkFlex top = new CANSparkFlex(9, MotorType.kBrushless);
-  public CANSparkFlex bottom = new CANSparkFlex(10, MotorType.kBrushless);
+  public SparkFlex top = new SparkFlex(9, MotorType.kBrushless);
+  public SparkFlex bottom = new SparkFlex(10, MotorType.kBrushless);
 
   public EndEffectorSubsystem() {}
 

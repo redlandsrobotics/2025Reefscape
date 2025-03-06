@@ -11,7 +11,9 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.*;
+import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.REVLibError;
 import com.revrobotics.jni.CANSparkJNI;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
@@ -23,6 +25,7 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkClosedLoopController;
+import com.revrobotics.spark.SparkAbsoluteEncoder;
 
 public class ArmSubsystem extends SubsystemBase 
 {
@@ -31,7 +34,8 @@ public class ArmSubsystem extends SubsystemBase
 
   public ArmSubsystem() 
   {
-    motor.setIdleMode(SparkBase.IdleMode.kBrake); 
+    
+
   }
 
   public void up()  
@@ -68,24 +72,21 @@ public class ArmSubsystem extends SubsystemBase
 
   public double getDistance()
   {
-    return encoder.getPosition();
+    return encoder.get();
   }
 
-  public void resetRotation() // sets current rotation to 0.0
-  {
-    encoder.reset();
-  }
+  private double positionOffset = 0.0;
 
-  public double GetPositionOffset() // get the position offset from when the encoder was reset
-  {
-    return encoder.getPositionOffset();
-  }
+public void resetRotation() {
+    positionOffset = encoder.get();
+}
 
-  public void SetPositionOffset(double dub)
-  {
-      encoder.setPositionOffset(dub); // set the position offset to double
+public double getRelativePosition() {
+    return encoder.get() - positionOffset;
+}
 
-  }
+
+
 
   @Override
   public void periodic() {

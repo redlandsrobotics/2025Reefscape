@@ -4,16 +4,26 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix6.configs.*;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
+
+import edu.wpi.first.hal.SimBoolean;
+import edu.wpi.first.hal.SimDevice;
+import edu.wpi.first.hal.SimDouble;
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.util.sendable.Sendable;
+import edu.wpi.first.util.sendable.SendableBuilder;
+import edu.wpi.first.util.sendable.SendableRegistry;
+
 public class ElevatorSubsystem extends SubsystemBase 
 {
   public TalonFX left = new TalonFX(1);
   public TalonFX right = new TalonFX(0);
-
+  DutyCycleEncoder encoder = new DutyCycleEncoder(0);
   /** Creates a new ElevatorSubsystem. */
   public ElevatorSubsystem() 
   {
@@ -46,8 +56,9 @@ public class ElevatorSubsystem extends SubsystemBase
 
   public double getDistance()
   {
-    return encoder.getDistance();
+    return encoder.get();
   }
+  
   /* 
   public double getRotation()
   {
@@ -58,6 +69,16 @@ public class ElevatorSubsystem extends SubsystemBase
 
     else 
     {
+      return 0.0;
+    }
+  }
+    public double getRotation() // returns absolute position relative to reset
+  {
+    if (encoder.isConnected())
+    {
+            return encoder.get();
+    }
+    else {  
       return 0.0;
     }
   }
