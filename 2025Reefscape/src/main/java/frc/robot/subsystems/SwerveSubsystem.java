@@ -97,38 +97,37 @@ public class SwerveSubsystem extends SubsystemBase {
 
 
     public SwerveSubsystem() {
-        RobotConfig config;
-        try{
-          config = RobotConfig.fromGUISettings();
+        RobotConfig config = null; // Declare outside
+
+        try {
+            config = RobotConfig.fromGUISettings(); // Assign to the existing variable
         } catch (Exception e) {
-          // Handle exception as needed
-          e.printStackTrace();
+            e.printStackTrace();
         }
+
+        // Ensure config is initialized before using it
+        if (config == null) {
+            throw new IllegalStateException("Failed to initialize RobotConfig");
+        }
+
     
         // Configure AutoBuilder last
         AutoBuilder.configure(
-                this::getPose, // Robot pose supplier
-                this::resetPose, // Method to reset odometry (will be called if your auto has a starting pose)
-                this::getRobotRelativeSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
-                (speeds, feedforwards) -> driveRobotRelative(speeds), // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also optionally outputs individual module feedforwards
-                new PPHolonomicDriveController( // PPHolonomicController is the built in path following controller for holonomic drive trains
-                        new PIDConstants(5.0, 0.0, 0.0), // Translation PID constants
-                        new PIDConstants(5.0, 0.0, 0.0) // Rotation PID constants
-                ),
-                config, // The robot configuration
-                () -> {
-                  // Boolean supplier that controls when the path will be mirrored for the red alliance
-                  // This will flip the path being followed to the red side of the field.
-                  // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
-    
-                  var alliance = DriverStation.getAlliance();
-                  if (alliance.isPresent()) {
-                    return alliance.get() == DriverStation.Alliance.Red;
-                  }
-                  return false;
-                },
-                this // Reference to this subsystem to set requirements
-    );
+            this::getPose, // Robot pose supplier
+            this::resetOdometry, // Method to reset odometry (now correctly passing a method that accepts Pose2d)
+            this::getRobotRelativeSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
+            (speeds, feedforwards) -> driveRobotRelative(speeds), // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
+            new PPHolonomicDriveController( // PPHolonomicController for holonomic drive trains
+                new PIDConstants(5.0, 0.0, 0.0), // Translation PID constants
+                new PIDConstants(5.0, 0.0, 0.0)  // Rotation PID constants
+            ),
+            config, // Robot configuration
+            () -> {
+                var alliance = DriverStation.getAlliance();
+                return alliance.isPresent() && alliance.get() == DriverStation.Alliance.Red;
+            }, 
+    this // Reference to this subsystem to set requirements
+);
   }
 
     // Assuming this is a method in your drive subsystem
