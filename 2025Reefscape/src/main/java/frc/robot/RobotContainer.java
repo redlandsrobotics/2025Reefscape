@@ -15,6 +15,7 @@ import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.path.PathPlannerPath;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PS5Controller;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.SendableCameraWrapper;
@@ -30,16 +31,16 @@ import com.pathplanner.lib.auto.NamedCommands;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.commands.ElevatorUpCmd;
-import frc.robot.commands.ElevatorDownCmd;
 import frc.robot.subsystems.WristSubsystem;
 import frc.robot.commands.WristUpCmd;
 import frc.robot.commands.WristDownCmd;
-import frc.robot.commands.ArmDownCmd;
 import frc.robot.commands.ArmUpCmd;
 import frc.robot.commands.PIDCmd;
 import frc.robot.commands.EndEffectorIntakeCmd;
 import frc.robot.commands.EndEffectorOutputCmd;
 import frc.robot.subsystems.EndEffectorSubsystem;
+import frc.robot.Constants.setPoints;
+
 
 
 /**
@@ -68,17 +69,21 @@ public class RobotContainer {
 
   //commands
   ZeroHeadingCmd zeroheading = new ZeroHeadingCmd(swerveSubsystem); 
-  /*
-  private static AutoAlignCmd align = new AutoAlignCmd(swerveSubsystem);
-  private static LRShootCmd LRshoot = new LRShootCmd(innerShooter);
-  private static ArmPIDCmd Amp = new ArmPIDCmd(arm, ArmConstants.Amp);
-  private static ArmPIDCmd Stow = new ArmPIDCmd(arm, ArmConstants.Stow);
-  private static ArmPIDCmd Source = new ArmPIDCmd(arm, ArmConstants.Source);
-  private static ArmPIDCmd Speaker1 = new ArmPIDCmd(arm, ArmConstants.pos1);
-  private static ArmPIDCmd Speaker2 = new ArmPIDCmd(arm, ArmConstants.pos2);
-  private static ArmPIDCmd Speaker3 = new ArmPIDCmd(arm, ArmConstants.pos3);
-  private static ArmPIDCmd Speaker4 = new ArmPIDCmd(arm, ArmConstants.pos4);
-   */
+  private static PIDCmd stowPID = new PIDCmd(wrist, arm, elevator, setPoints.armStow, setPoints.wriStow, setPoints.elaStow);
+  private static PIDCmd L1PID = new PIDCmd(wrist, arm, elevator, setPoints.armL1, setPoints.wriL1, setPoints.elaL1);
+  private static PIDCmd L2PID = new PIDCmd(wrist, arm, elevator, setPoints.armL2, setPoints.wriL2, setPoints.elaL2);
+  private static PIDCmd L3PID = new PIDCmd(wrist, arm, elevator, setPoints.armL3, setPoints.wriL3, setPoints.elaL3);
+  private static PIDCmd L4PID = new PIDCmd(wrist, arm, elevator, setPoints.armL4, setPoints.wriL4, setPoints.elaL4);
+  private static PIDCmd ALGProPID  = new PIDCmd(wrist, arm, elevator, setPoints.armALGPro, setPoints.wriALGPro, setPoints.elaALGPro);
+  private static PIDCmd ALGPID = new PIDCmd(wrist, arm, elevator, setPoints.armALG, setPoints.wriALG, setPoints.elaALG);
+  private static PIDCmd ALGIntUppPID = new PIDCmd(wrist, arm, elevator, setPoints.armALGIntUpp, setPoints.wriALGIntUpp, setPoints.elaALGIntUpp);
+  private static PIDCmd ALGIntLowPID = new PIDCmd(wrist, arm, elevator, setPoints.armALGIntLow, setPoints.wriALGIntLow, setPoints.elaALGIntLow);
+  private static PIDCmd ALGCorPID = new PIDCmd(wrist, arm, elevator, setPoints.armCORInt, setPoints.wriCORInt, setPoints.elaCORInt);
+  private static WristUpCmd WristUp = new WristUpCmd(wrist);
+  private static WristDownCmd WristDown = new WristDownCmd(wrist);
+
+
+
 
 
 
@@ -100,14 +105,14 @@ public class RobotContainer {
        () ->Math.abs(controller1.getRawAxis(OIConstants.kDriverRotAxis)) * controller1.getRawAxis(OIConstants.kDriverRotAxis),
        () ->!controller1.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx)));
 
-    // arm.setDefaultCommand(new ArmCmd(arm, () -> controller2.getRawAxis(1)));
+    arm.setDefaultCommand(new ArmUpCmd(arm, () -> controller2.getRawAxis(1)));
+    elevator.setDefaultCommand(new ElevatorUpCmd(elevator, () -> controller2.getRawAxis(2)));
     // shooter.setDefaultCommand(new ShootCmd(shooter,  () -> controller1.getRawAxis(4), () -> controller1.getRawAxis(3)));
     // NamedCommands.registerCommand("pos1", new ArmPIDCmd(arm, ArmConstants.pos1));
     // NamedCommands.registerCommand("stow", new ArmPIDCmd(arm, ArmConstants.Stow));
     // NamedCommands.registerCommand("shoot", new AutoShootCmd(shooter));
     // NamedCommands.registerCommand("LRShoot", new LRShootCmd(innerShooter));
     NamedCommands.registerCommand("align", new ZeroHeadingCmd(swerveSubsystem));
-    NamedCommands.registerCommand("pos1", new PIDCmd(wrist, arm, elevator, 0.0, 0.0, 0.0));
 
     configureBindings();
   }
@@ -125,6 +130,22 @@ public class RobotContainer {
     // joystick 1
     //new JoystickButton(controller1, 5).onTrue(zeroheading);
     new JoystickButton(controller1, 5).toggleOnTrue(zeroheading);//this line replaces the above
+    new JoystickButton(controller2, 1).whileTrue(L1PID);
+    new JoystickButton(controller2, 2).whileTrue(L2PID);
+    new JoystickButton(controller2, 3).whileTrue(L3PID);
+    new JoystickButton(controller2, 4).whileTrue(L4PID);
+    new JoystickButton(controller2, 8).whileTrue(ALGIntUppPID);
+    new JoystickButton(controller2, 6).whileTrue(stowPID);
+    new JoystickButton(controller2, 7).whileTrue(ALGIntLowPID);
+    new JoystickButton(controller2, 9).whileTrue(ALGPID);
+    new JoystickButton(controller2, 10).whileTrue(ALGProPID);
+    new JoystickButton(controller2,11).whileTrue(ALGCorPID);
+    new JoystickButton(controller2, 12).whileTrue(WristUp);
+    new JoystickButton(controller2, 13).whileTrue(WristDown);
+
+    
+
+
     //new JoystickButton(controller1, 1).toggleOnTrue(align);
     // new JoystickButton(controller1, 6).whileTrue(LRshoot);
     // new JoystickButton(controller2, 1).whileTrue(Speaker1);
