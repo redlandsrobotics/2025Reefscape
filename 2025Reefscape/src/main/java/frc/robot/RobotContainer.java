@@ -81,7 +81,8 @@ public class RobotContainer {
   private static PIDCmd ALGCorPID = new PIDCmd(wrist, arm, elevator, setPoints.armCORInt, setPoints.wriCORInt, setPoints.elaCORInt);
   private static WristUpCmd WristUp = new WristUpCmd(wrist);
   private static WristDownCmd WristDown = new WristDownCmd(wrist);
-
+  private static EndEffectorIntakeCmd EndEffectorIntake = new EndEffectorIntakeCmd(endEffector);
+  private static EndEffectorOutputCmd EndEffectorOutake = new EndEffectorOutputCmd(endEffector);
 
 
 
@@ -100,13 +101,13 @@ public class RobotContainer {
 		// joystick 1
 		swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
       swerveSubsystem,
-       () -> Math.abs(controller1.getRawAxis(OIConstants.kDriverYAxis)) * controller1.getRawAxis(OIConstants.kDriverYAxis),// x and y speed switched up
-       () -> Math.abs(controller1.getRawAxis(OIConstants.kDriverXAxis)) * controller1.getRawAxis(OIConstants.kDriverXAxis),
+       () -> -Math.abs(controller1.getRawAxis(OIConstants.kDriverYAxis)) * controller1.getRawAxis(OIConstants.kDriverYAxis),// x and y speed switched up
+       () -> -Math.abs(controller1.getRawAxis(OIConstants.kDriverXAxis)) * controller1.getRawAxis(OIConstants.kDriverXAxis),
        () ->Math.abs(controller1.getRawAxis(OIConstants.kDriverRotAxis)) * controller1.getRawAxis(OIConstants.kDriverRotAxis),
        () ->!controller1.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx)));
 
-    arm.setDefaultCommand(new ArmUpCmd(arm, () -> controller2.getRawAxis(1)));
-    elevator.setDefaultCommand(new ElevatorUpCmd(elevator, () -> controller2.getRawAxis(2)));
+    arm.setDefaultCommand(new ArmUpCmd(arm, () -> -controller2.getRawAxis(1)));
+    elevator.setDefaultCommand(new ElevatorUpCmd(elevator, () -> -controller2.getRawAxis(5)));
     // shooter.setDefaultCommand(new ShootCmd(shooter,  () -> controller1.getRawAxis(4), () -> controller1.getRawAxis(3)));
     // NamedCommands.registerCommand("pos1", new ArmPIDCmd(arm, ArmConstants.pos1));
     // NamedCommands.registerCommand("stow", new ArmPIDCmd(arm, ArmConstants.Stow));
@@ -131,17 +132,21 @@ public class RobotContainer {
     //new JoystickButton(controller1, 5).onTrue(zeroheading);
     new JoystickButton(controller1, 5).toggleOnTrue(zeroheading);//this line replaces the above
     new JoystickButton(controller2, 1).whileTrue(L1PID);
-    new JoystickButton(controller2, 2).whileTrue(L2PID);
-    new JoystickButton(controller2, 3).whileTrue(L3PID);
-    new JoystickButton(controller2, 4).whileTrue(L4PID);
-    new JoystickButton(controller2, 8).whileTrue(ALGIntUppPID);
-    new JoystickButton(controller2, 6).whileTrue(stowPID);
-    new JoystickButton(controller2, 7).whileTrue(ALGIntLowPID);
-    new JoystickButton(controller2, 9).whileTrue(ALGPID);
-    new JoystickButton(controller2, 10).whileTrue(ALGProPID);
-    new JoystickButton(controller2,11).whileTrue(ALGCorPID);
-    new JoystickButton(controller2, 12).whileTrue(WristUp);
-    new JoystickButton(controller2, 13).whileTrue(WristDown);
+    // new JoystickButton(controller2, 2).whileTrue(L2PID);
+    // new JoystickButton(controller2, 3).whileTrue(L3PID);
+    // new JoystickButton(controller2, 4).whileTrue(L4PID);
+    // new JoystickButton(controller2, 8).whileTrue(ALGIntUppPID);
+    // //new JoystickButton(controller2, 6).whileTrue(stowPID);
+    // new JoystickButton(controller2, 7).whileTrue(ALGIntLowPID);
+    // new JoystickButton(controller2, 9).whileTrue(ALGPID);
+    // new JoystickButton(controller2, 10).whileTrue(ALGProPID);
+    // new JoystickButton(controller2,11).whileTrue(ALGCorPID);
+    new JoystickButton(controller2, 5).whileTrue(WristUp);
+    new JoystickButton(controller2, 6).whileTrue(WristDown);
+    new JoystickButton(controller1, 5).whileTrue(EndEffectorIntake);
+    new JoystickButton(controller1, 6).whileTrue(EndEffectorOutake);
+
+
 
     
 
@@ -151,7 +156,7 @@ public class RobotContainer {
     // new JoystickButton(controller2, 1).whileTrue(Speaker1);
     // new JoystickButton(controller2,2 ).whileTrue(Speaker2);
     // new JoystickButton(controller2, 3).whileTrue(Speaker3);
-    // new JoystickButton(controller2, 4).whileTrue(Speaker4);
+    // new JoystickButton(controller2, 4).whileTrue(Speaker45
     // new JoystickButton(controller2, 5).whileTrue(Source);
     // new JoystickButton(controller2, 6).whileTrue(Stow);
     // new JoystickButton(controller2, 8).whileTrue(Amp);

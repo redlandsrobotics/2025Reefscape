@@ -31,7 +31,20 @@ public class ElevatorUpCmd extends Command {
   @Override
   public void execute() 
   {
-    RobotContainer.elevator.up();
+    double realTimeSpeed = speedFunction.get();
+
+    if(realTimeSpeed<0.05 && realTimeSpeed>-0.05)
+    {
+      RobotContainer.elevator.stop();
+    }
+    if(realTimeSpeed < -0.05)
+    {
+      RobotContainer.elevator.down();
+    }
+    if(realTimeSpeed> 0.05)
+    {
+      RobotContainer.elevator.up();
+    }
   }
 
   // Called once the command ends or is interrupted.

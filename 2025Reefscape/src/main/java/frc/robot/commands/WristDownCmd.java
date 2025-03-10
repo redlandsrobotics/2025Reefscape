@@ -19,10 +19,9 @@ public class WristDownCmd extends Command {
   private Supplier<Double> speedFunction;
  
 
-  public WristDownCmd(WristSubsystem subsystem, Supplier<Double> speedFunction) {
+  public WristDownCmd(WristSubsystem subsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_subsystem = subsystem;
-    this.speedFunction = speedFunction;
     addRequirements(subsystem);
   }
 

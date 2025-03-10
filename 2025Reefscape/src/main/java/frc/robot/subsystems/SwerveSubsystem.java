@@ -8,12 +8,11 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import java.util.function.Supplier;
 
 import com.studica.frc.AHRS;
 import com.studica.frc.AHRS.NavXComType;
 import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.commands.*;
+
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
@@ -98,7 +97,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
     public SwerveSubsystem() {
         RobotConfig config = null; // Declare outside
-
+/* 
         try {
             config = RobotConfig.fromGUISettings(); // Assign to the existing variable
         } catch (Exception e) {
@@ -109,10 +108,10 @@ public class SwerveSubsystem extends SubsystemBase {
         if (config == null) {
             throw new IllegalStateException("Failed to initialize RobotConfig");
         }
-
+*/
     
         // Configure AutoBuilder last
-        AutoBuilder.configure(
+        /*AutoBuilder.configure(
             this::getPose, // Robot pose supplier
             this::resetOdometry, // Method to reset odometry (now correctly passing a method that accepts Pose2d)
             this::getRobotRelativeSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
@@ -127,7 +126,7 @@ public class SwerveSubsystem extends SubsystemBase {
                 return alliance.isPresent() && alliance.get() == DriverStation.Alliance.Red;
             }, 
     this // Reference to this subsystem to set requirements
-);
+);*/
   }
 
     // Assuming this is a method in your drive subsystem
@@ -165,8 +164,9 @@ public class SwerveSubsystem extends SubsystemBase {
         //double[] drivePositions = {frontLeft.getDrivePosition(), frontRight.getDrivePosition(), backLeft.getDrivePosition(), backRight.getDrivePosition()};
         double drivePosition1 = frontLeft.getDrivePosition(); 
         double drivePosition2 = frontRight.getDrivePosition(); 
-        double drivePosition3 = backRight.getDrivePosition(); 
-        double drivePosition4 = backLeft.getDrivePosition(); 
+        double drivePosition3 = backLeft.getDrivePosition(); 
+        double drivePosition4 = backRight.getDrivePosition(); 
+        
 
         double averagePosition = (drivePosition1 + drivePosition2 + drivePosition3 + drivePosition4) / 4;
         
@@ -209,8 +209,8 @@ public class SwerveSubsystem extends SubsystemBase {
     public double getTurn(){
         double turnPosition1 = frontLeft.getTurningPosition(); 
         double turnPosition2 = frontRight.getTurningPosition(); 
-        double turnPosition3 = backRight.getTurningPosition(); 
-        double turnPosition4 = backLeft.getTurningPosition(); 
+        double turnPosition3 = backLeft.getTurningPosition(); 
+        double turnPosition4 = backRight.getTurningPosition(); 
 
         double averagePosition = (turnPosition1 + turnPosition2 + turnPosition3 + turnPosition4) / 4;
       
@@ -220,22 +220,22 @@ public class SwerveSubsystem extends SubsystemBase {
     public void dReset(){
         frontLeft.resetEncoders();
         frontRight.resetEncoders();
-        backRight.resetEncoders();
         backLeft.resetEncoders();
+        backRight.resetEncoders();
     }
 
     public void setD(){
         frontLeft.setEncoders();
         frontRight.setEncoders();
-        backRight.setEncoders();
         backLeft.setEncoders();
+        backRight.setEncoders();
     }
 
     // public void resetConstantss() {
     //     frontLeft.resetConstants();
     //     frontRight.resetConstants();
-    //     backRight.resetConstants();
     //     backLeft.resetConstants();
+    //     backRight.resetConstants();
     // }
 
     public SwerveModulePosition[] getModulePositions() {
@@ -317,15 +317,18 @@ public class SwerveSubsystem extends SubsystemBase {
     //    SmartDashboard.putNumber("FR | ", frontRight.getAbsoluteEncoderRad());
 
         // System.out.println("BL | " + backLeft.returnVoltage());
+        // SmartDashboard.putNumber("FL | ", frontLeft.getAbsoluteEncoderRad());
+        // SmartDashboard.putNumber("FR | ", frontRight.getAbsoluteEncoderRad());
         // SmartDashboard.putNumber("BL | ", backLeft.getAbsoluteEncoderRad());
-       System.out.println("FR | " + frontRight.getAbsoluteEncoderRad());
-       System.out.println("BR | " + backRight.getAbsoluteEncoderRad());
-         System.out.println("FL | " + frontLeft.getAbsoluteEncoderRad());
-         System.out.println("BL | " + backLeft.getAbsoluteEncoderRad());
+        // SmartDashboard.putNumber("BR | ", backRight.getAbsoluteEncoderRad());
+    //    System.out.println("FR | " + frontRight.getAbsoluteEncoderRad());
+    //    System.out.println("BR | " + backRight.getAbsoluteEncoderRad());
+    //      System.out.println("FL | " + frontLeft.getAbsoluteEncoderRad());
+    //      System.out.println("BL | " + backLeft.getAbsoluteEncoderRad());
         // System.out.println("BR | " + backRight.returnVoltage());
         // SmartDashboard.putNumber("BR | ", backRight.getAbsoluteEncoderRad());
         // System.out.println("FL |" + frontLeft.getTurningPosition());
-        // System.out.println("RL |" + frontRight.getTurningPosition());
+        // System.out.println("FL |" + frontRight.getTurningPosition());
         // System.out.println("BL |" + backLeft.getTurningPosition());
         // System.out.println("BR |" + backRight.getTurningPosition());
         //System.out.println("Gyro Value" + getHeading());

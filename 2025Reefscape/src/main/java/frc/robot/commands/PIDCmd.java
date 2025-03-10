@@ -25,12 +25,14 @@ public class PIDCmd extends Command {
   private final PIDController wristPIDController;
   private final PIDController armPIDController;
   private final PIDController elevaPIDController;
+  private final double armSetpoint;
  
 
-  public PIDCmd(WristSubsystem wristSubsystem, ArmSubsystem armSubsystem, ElevatorSubsystem elevatorSubsystem, double wristSetpoint, double armSetpoint, double elevaSetpoint) {    
+  public PIDCmd(WristSubsystem wristSubsystem, ArmSubsystem armSubsystem, ElevatorSubsystem elevatorSubsystem, double armSetpoint, double wristSetpoint, double elevaSetpoint) {    
     this.wristSubsystem = wristSubsystem;
     this.armSubsystem = armSubsystem;
     this.elevatorSubsystem = elevatorSubsystem;
+    this.armSetpoint = armSetpoint;
     this.wristPIDController = new PIDController(ArmConstants.kP, ArmConstants.kI, ArmConstants.kD);
     this.armPIDController = new PIDController(WristConstants.kP, WristConstants.kI, WristConstants.kD);
     this.elevaPIDController = new PIDController(ElevaConstants.kP, ElevaConstants.kI, ElevaConstants.kD);
@@ -55,12 +57,19 @@ public class PIDCmd extends Command {
   @Override
   public void execute() 
   {
+    
     double speedW = wristPIDController.calculate(wristSubsystem.getDistance());
     double speedA = armPIDController.calculate(armSubsystem.getDistance());
-    double speedE = elevaPIDController.calculate(elevatorSubsystem.getDistance());
-    wristSubsystem.set(speedW);
+    double speedE = elevaPIDController.calculate(elevatorSubsystem.getDistance()) / 3;
+    //System.out.println("wrist speed: " + speedW);
+    System.out.println("arm speed: " + speedA);
+    //System.out.println("eleva speed: " + speedE);
+    //System.out.println("arm setpoint: " + armSetpoint);
+    //System.out.println("arm speed: " + speedA);
+    //System.out.println("eleva speed: " + speedE);
+    //wristSubsystem.set(-speedW);
     armSubsystem.set(speedA);
-    elevatorSubsystem.set(speedE);
+    //elevatorSubsystem.set(speedE);
   }
 
   // Called once the command ends or is interrupted.

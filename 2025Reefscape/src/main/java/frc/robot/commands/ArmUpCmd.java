@@ -18,9 +18,10 @@ public class ArmUpCmd extends Command {
   private Supplier<Double> speedFunction;
 
 
-  public ArmUpCmd(ArmSubsystem subsystem) 
+  public ArmUpCmd(ArmSubsystem subsystem, Supplier<Double> speedFunction) 
   {
     m_subsystem = subsystem;
+    this.speedFunction = speedFunction;
     addRequirements(subsystem);
   }
 
@@ -32,14 +33,27 @@ public class ArmUpCmd extends Command {
   @Override
   public void execute() 
   {
-    RobotContainer.arm.up();
+    double realTimeSpeed = speedFunction.get();
+
+    if(realTimeSpeed<0.05 && realTimeSpeed>-0.05)
+    {
+      RobotContainer.arm.stop();
+    }
+    if(realTimeSpeed < -0.05)
+    {
+      RobotContainer.arm.down();
+    }
+    if(realTimeSpeed> 0.05)
+    {
+      RobotContainer.arm.up();
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) 
   {
-    RobotContainer.elevator.stop();
+    RobotContainer.arm.stop();
   }
 
   // Returns true when the command should end.

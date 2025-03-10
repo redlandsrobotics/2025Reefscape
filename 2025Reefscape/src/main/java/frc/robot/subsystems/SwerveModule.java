@@ -10,7 +10,9 @@ import frc.robot.Constants.ModuleConstants;
 
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.spark.*;
+import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.RelativeEncoder;
 //import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -24,6 +26,8 @@ import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
+import com.revrobotics.spark.SparkBase.ResetMode;
+
 
 public class SwerveModule extends SubsystemBase {
     /** Creates a new ExampleSubsystem. */
@@ -49,8 +53,10 @@ public class SwerveModule extends SubsystemBase {
 	
 		driveMotor = new SparkMax(driveMotorId, MotorType.kBrushless);
 		turningMotor = new SparkMax(turningMotorId, MotorType.kBrushless);
-	  driveMotor.restoreFactoryDefaults();
-    turningMotor.restoreFactoryDefaults();
+    SparkMaxConfig config = new SparkMaxConfig();
+    SparkMaxConfig config1 = new SparkMaxConfig();
+	  driveMotor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
+    turningMotor.configure(config1, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
 
 		driveMotor.setInverted(driveMotorReversed);
 		turningMotor.setInverted(turningMotorReversed);
@@ -58,19 +64,19 @@ public class SwerveModule extends SubsystemBase {
 		driveEncoder = driveMotor.getEncoder();
 		turningEncoder = turningMotor.getEncoder();
 	
-		driveEncoder.setPositionConversionFactor(ModuleConstants.kDriveEncoderRot2Meter);
-		driveEncoder.setVelocityConversionFactor(ModuleConstants.kDriveEncoderRPM2MeterPerSec);
-		turningEncoder.setPositionConversionFactor(ModuleConstants.kTurningEncoderRot2Rad);
-		turningEncoder.setVelocityConversionFactor(ModuleConstants.kTurningEncoderRPM2RadPerSec);
+		config.encoder.positionConversionFactor(ModuleConstants.kDriveEncoderRot2Meter);
+    config.encoder.velocityConversionFactor(ModuleConstants.kDriveEncoderRPM2MeterPerSec);
+		config1.encoder.positionConversionFactor(ModuleConstants.kTurningEncoderRot2Rad);
+		config1.encoder.velocityConversionFactor(ModuleConstants.kTurningEncoderRPM2RadPerSec);
 	
 		turningPidController = new PIDController(ModuleConstants.kPTurning, ModuleConstants.kITurning, 0);
     turningPidController.enableContinuousInput(-Math.PI, Math.PI );
     
-    drivePidController = new PIDController(0.75,1.5, 0);
+    drivePidController = new PIDController(0,0, 0);
 
     //resetEncoders();
-  driveMotor.burnFlash();
-  turningMotor.burnFlash();
+    driveMotor.configure(config, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
+    turningMotor.configure(config, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
 
 
 	}
@@ -125,12 +131,15 @@ public class SwerveModule extends SubsystemBase {
   }
 
   public SwerveModuleState getState() {
-    return new SwerveModuleState(getDriveVelocity(),   new Rotation2d(getAbsoluteEncoderRad())); /*new Rotation2d(getTurningPosition()));//switch between neo encoders and abs encoders
-*/
+    //return new SwerveModuleState(getDriveVelocity(),    /*new Rotation2d(getAbsoluteEncoderRad()));*/ new Rotation2d(getTurningPosition()));//switch between neo encoders and abs encoders
+    return new SwerveModuleState(getDriveVelocity(),    new Rotation2d(getAbsoluteEncoderRad()));//*/ new Rotation2d(getTurningPosition()));//switch between neo encoders and abs encoders
+
   }
 
   public SwerveModulePosition getPosition() {
-	return new SwerveModulePosition(getDrivePosition(), new Rotation2d(getAbsoluteEncoderRad())/*new Rotation2d(getTurningPosition())*/);//switch between neo encoders and abs encoders
+		//return new SwerveModulePosition(getDrivePosition(), /*new Rotation2d(getAbsoluteEncoderRad()));*/new Rotation2d(getTurningPosition()));//switch between neo encoders and abs encoders
+
+    return new SwerveModulePosition(getDrivePosition(), new Rotation2d(getAbsoluteEncoderRad()));//new Rotation2d(getTurningPosition()));//switch between neo encoders and abs encoders
   }
 
   public void setDesiredState(SwerveModuleState state) {
@@ -145,6 +154,7 @@ public class SwerveModule extends SubsystemBase {
 
 
 
+    //turningMotor.set(turningPidController.calculate(/*getAbsoluteEncoderRad()*/getTurningPosition(), state.angle.getRadians()));//switch between neo encoders and abs encoders
 
     turningMotor.set(turningPidController.calculate(getAbsoluteEncoderRad()/*getTurningPosition()*/, state.angle.getRadians()));//switch between neo encoders and abs encoders
   //   SmartDashboard.putString("Swerve[" + absoluteEncoder.getChannel() + "] state", state.toString());

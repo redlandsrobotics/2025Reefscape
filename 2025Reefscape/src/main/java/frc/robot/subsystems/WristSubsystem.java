@@ -4,20 +4,25 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+import com.revrobotics.spark.config.SparkMaxConfig;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 
 public class WristSubsystem extends SubsystemBase {
   /** Creates a new WristSubsystem. */
 
-  public CANSparkMax motor = new CANSparkMax(0, MotorType.kBrushless);
-  DutyCycleEncoder encoder = new DutyCycleEncoder(0);
+  public SparkMax motor = new SparkMax(10, MotorType.kBrushless);
+  DutyCycleEncoder encoder2 = new DutyCycleEncoder(1);
 
   public WristSubsystem() 
   {
-    motor.setNeutralMode(NeutralModeValue.Brake);
+    SparkMaxConfig config = new SparkMaxConfig();
+    config.idleMode(IdleMode.kBrake);
   }
 
   public void up()
@@ -40,40 +45,27 @@ public class WristSubsystem extends SubsystemBase {
     motor.set(speed);
   }
 
-  public double getRotation() // returns absolute position relative to reset
-  {
-    if (encoder.isConnected())
-    {
-            return encoder.getAbsolutePosition();
-    }
-    else {
-      return 0.0;
-    }
-  }
-
   public double getDistance()
   {
-    return encoder.getDistance();
+    return encoder2.get();
   }
 
-  public void resetRotation() // sets current rotation to 0.0
-  {
-    encoder.reset();
-  }
+  // private double positionOffset = 0.0;
 
-  public double GetPositionOffset() // get the position offset from when the encoder was reset
-  {
-    return encoder.getPositionOffset();
-  }
-
-  public void SetPositionOffset(double dub)
-  {
-      encoder.setPositionOffset(dub); // set the position offset to double
-
-  }
+  // public void resetRotation() {
+  //     positionOffset = encoder.get();
+  // }
+  
+  // public double getRelativePosition() {
+  //     return encoder.get() - positionOffset;
+  // }
+  
+  
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+      SmartDashboard.putNumber("WRIST | ", encoder2.get());
+
   }
 }

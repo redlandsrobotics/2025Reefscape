@@ -5,32 +5,33 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import com.revrobotics.SparkBase.ControlType;
-import com.revrobotics.SparkBase.IdleMode;
-import com.revrobotics.SparkFlex;
-import com.revrobotics.SparkLowLevel.MotorType;
-import com.revrobotics.SparkLowLevel.PeriodicFrame;
+import com.revrobotics.AbsoluteEncoder;
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkFlex;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.SparkClosedLoopController;
+import com.revrobotics.spark.SparkAbsoluteEncoder;
 
 public class EndEffectorSubsystem extends SubsystemBase {
   /** Creates a new EndEffectorSubsystem. */
   
-  public SparkFlex top = new SparkFlex(9, MotorType.kBrushless);
-  public SparkFlex bottom = new SparkFlex(10, MotorType.kBrushless);
+  public SparkFlex top = new SparkFlex(11, MotorType.kBrushless);
+  public SparkFlex bottom = new SparkFlex(12, MotorType.kBrushless);
 
   public EndEffectorSubsystem() {}
 
   public void shoot()
   {
-    top.set(0.75); // to be tuned later
-    bottom.set(-0.75); // to be tuned later
+    top.set(0.5); // to be tuned later
+    bottom.set(0.5); // to be tuned later
   }
 
 
 
   public void intake()
   {
-    top.set(-0.75); // to be tuned later
-    bottom.set(0.75); // to be tuned later
+    top.set(-0.2); // to be tuned later
+    bottom.set(-0.2); // to be tuned later
 
   }
 
