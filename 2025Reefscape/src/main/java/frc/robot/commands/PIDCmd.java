@@ -58,8 +58,8 @@ public class PIDCmd extends Command {
   public void execute() 
   {
     
-    double speedW = wristPIDController.calculate(wristSubsystem.getDistance());
-    double speedA = armPIDController.calculate(armSubsystem.getDistance());
+    double speedW = wristPIDController.calculate(wristSubsystem.getDistance())*15;
+    double speedA = armPIDController.calculate(armSubsystem.getDistance())*0.5;
     double speedE = elevaPIDController.calculate(elevatorSubsystem.getDistance()) / 3;
     //System.out.println("wrist speed: " + speedW);
     System.out.println("arm speed: " + speedA);
@@ -67,9 +67,9 @@ public class PIDCmd extends Command {
     //System.out.println("arm setpoint: " + armSetpoint);
     //System.out.println("arm speed: " + speedA);
     //System.out.println("eleva speed: " + speedE);
-    //wristSubsystem.set(-speedW);
-    armSubsystem.set(speedA);
-    //elevatorSubsystem.set(speedE);
+    wristSubsystem.set(-speedW);
+    armSubsystem.set(-speedA);
+    elevatorSubsystem.set(speedE);
   }
 
   // Called once the command ends or is interrupted.

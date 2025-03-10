@@ -130,18 +130,18 @@ public static final class OIAutoConstants {
 public static final class ArmConstants {
     public static final double UpperLimit = 0.0; // tweak later
     public static final double LowerLimit = 0.0;
-    public static final double kP = 1.5;
-    public static final double kI = 0.0;
-    public static final double kD = 0.0;
+    public static final double kP = 0.1;
+    public static final double kI = 0;
+    public static final double kD = 0;
 
 }
 
 public static final class WristConstants{
     public static final double UpperLimit = 0.0;
     public static final double LowerLimit = 0.0;
-    public static final double kP = 0.01;
+    public static final double kP = 5;
     public static final double kI = 0.0;
-    public static final double kD = 0.10;
+    public static final double kD = 0.5;
 }
 
 public static final class ElevaConstants{
@@ -151,15 +151,19 @@ public static final class ElevaConstants{
 }
 
 public static final class setPoints{
-    
+    // OFFSETS
+    // Wrist: 0.08
+    // Arm: 0.02
+
+
     //stow
     public static final double armStow = 0.0;
     public static final double wriStow = 0.0;
     public static final double elaStow = 0.0;
 
     //L1
-    public static final double armL1 = 0.17308;
-    public static final double wriL1 = 0.77569;
+    public static final double armL1 = 0.78;
+    public static final double wriL1 = 0.62;
     public static final double elaL1 = 10.3911;
 
     //L2

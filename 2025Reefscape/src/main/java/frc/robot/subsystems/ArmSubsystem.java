@@ -75,7 +75,7 @@ public class ArmSubsystem extends SubsystemBase
 
   public double getDistance()
   {
-    return 1.0 - encoder.get();
+    return encoder.get();
   }
 
 //   private double positionOffset = 0.0;
@@ -94,7 +94,7 @@ public class ArmSubsystem extends SubsystemBase
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-          SmartDashboard.putNumber("ARM | ", 1.0 - encoder.get());
+          SmartDashboard.putNumber("ARM | ", encoder.get());
 
   } 
 }
