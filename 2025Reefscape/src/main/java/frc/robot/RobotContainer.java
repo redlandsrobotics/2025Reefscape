@@ -79,6 +79,7 @@ public class RobotContainer {
   private static PIDCmd ALGIntUppPID = new PIDCmd(wrist, arm, elevator, setPoints.armALGIntUpp, setPoints.wriALGIntUpp, setPoints.elaALGIntUpp);
   private static PIDCmd ALGIntLowPID = new PIDCmd(wrist, arm, elevator, setPoints.armALGIntLow, setPoints.wriALGIntLow, setPoints.elaALGIntLow);
   private static PIDCmd ALGCorPID = new PIDCmd(wrist, arm, elevator, setPoints.armCORInt, setPoints.wriCORInt, setPoints.elaCORInt);
+  
   private static WristUpCmd WristUp = new WristUpCmd(wrist);
   private static WristDownCmd WristDown = new WristDownCmd(wrist);
   private static EndEffectorIntakeCmd EndEffectorIntake = new EndEffectorIntakeCmd(endEffector);
@@ -133,8 +134,8 @@ public class RobotContainer {
     new JoystickButton(controller1, 5).toggleOnTrue(zeroheading);//this line replaces the above
     new JoystickButton(controller2, 1).whileTrue(L1PID);
     // new JoystickButton(controller2, 2).whileTrue(L2PID);
-    // new JoystickButton(controller2, 3).whileTrue(L3PID);
-    // new JoystickButton(controller2, 4).whileTrue(L4PID);
+    new JoystickButton(controller2, 3).whileTrue(L3PID);
+    new JoystickButton(controller2, 4).whileTrue(L4PID);
     // new JoystickButton(controller2, 8).whileTrue(ALGIntUppPID);
     // //new JoystickButton(controller2, 6).whileTrue(stowPID);
     // new JoystickButton(controller2, 7).whileTrue(ALGIntLowPID);
@@ -145,6 +146,8 @@ public class RobotContainer {
     new JoystickButton(controller2, 6).whileTrue(WristDown);
     new JoystickButton(controller1, 5).whileTrue(EndEffectorIntake);
     new JoystickButton(controller1, 6).whileTrue(EndEffectorOutake);
+    new JoystickButton(controller2, 6).whileTrue(stowPID);
+    new JoystickButton(controller2, 2).whileTrue(L2PID);
 
 
 

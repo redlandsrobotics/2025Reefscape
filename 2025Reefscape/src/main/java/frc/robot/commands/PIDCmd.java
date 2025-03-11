@@ -60,7 +60,7 @@ public class PIDCmd extends Command {
     
     double speedW = wristPIDController.calculate(wristSubsystem.getDistance())*15;
     double speedA = armPIDController.calculate(armSubsystem.getDistance())*0.5;
-    double speedE = elevaPIDController.calculate(elevatorSubsystem.getDistance()) / 3;
+    double speedE = elevaPIDController.calculate(elevatorSubsystem.getDistance()) / 3.5;
     //System.out.println("wrist speed: " + speedW);
     System.out.println("arm speed: " + speedA);
     //System.out.println("eleva speed: " + speedE);

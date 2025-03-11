@@ -157,9 +157,9 @@ public static final class setPoints{
 
 
     //stow
-    public static final double armStow = 0.0;
-    public static final double wriStow = 0.0;
-    public static final double elaStow = 0.0;
+    public static final double armStow = 0.85;
+    public static final double wriStow = 0.77;
+    public static final double elaStow = 1;
 
     //L1
     public static final double armL1 = 0.78;
@@ -167,19 +167,18 @@ public static final class setPoints{
     public static final double elaL1 = 10.3911;
 
     //L2
-    public static final double armL2 = 0.0;
-    public static final double wriL2 = 0.0;
-    public static final double elaL2 = 0.0;
+    public static final double armL2 = 0.77;
+    public static final double wriL2 = 0.5;
+    public static final double elaL2 = 12.75;
 
     //L3
-    public static final double armL3 = 0.0;
-    public static final double wriL3 = 0.0;
-    public static final double elaL3 = 0.0;
-    
+    public static final double armL3 = 0.77;
+    public static final double wriL3 = 0.5;
+    public static final double elaL3 = 21;
     //L1
-    public static final double armL4 = 0.0;
-    public static final double wriL4 = 0.0;
-    public static final double elaL4 = 0.0;
+    public static final double armL4 = 0.58;
+    public static final double wriL4 = 0.3;
+    public static final double elaL4 = 30;
 
     //ALGPro
     public static final double armALGPro = 0.0;
